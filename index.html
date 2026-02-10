@@ -273,7 +273,7 @@
             'PHOTO PTO': 'pto_photo', 'CADRAGE PTO': 'pto_cadrage', 'RÉF CABLE': 'pbo_ref_cable', 'RÉF PB': 'pbo_ref_pb',
             'PHOTO PBO AVANT': 'pbo_avant', 'PHOTO PBO APRÈS': 'pbo_apres', 'CADRAGE PB': 'pbo_cadrage', 'MESURE E2': 'pbo_mesure_e2',
             'PÉNÉTRATION': 'autre_penetration', 'GÉOLOCALISATION': 'autre_geoloc', 'CHECKVOISINAGE': 'autre_voisinage',
-            'VOISIN PERTURBÉ': 'autre_voisin_perturbe', 'RACC SAUVAGE': 'autre_sauvage', 'NACELLE': 'autre_nacelle', 'POTEAU': 'autre_photo_poteau'
+            'VOISIN PERTURBÉ': 'autre_voisin_perturbe', 'INC': 'autre_sauvage', 'NACELLE': 'autre_nacelle', 'POTEAU': 'autre_photo_poteau'
         };
 
         const COMMENT_FIELDS_MAP = {
@@ -317,7 +317,7 @@
             { key: 'autre_geoloc', label: 'GÉOLOCALISATION' },
             { key: 'autre_voisinage', label: 'CHECKVOISINAGE' },
             { key: 'autre_voisin_perturbe', label: 'VOISIN PERTURBÉ' },
-            { key: 'autre_sauvage', label: 'RACC SAUVAGE' },
+            { key: 'autre_sauvage', label: 'INC' },
             { key: 'autre_nacelle', label: 'NACELLE' },
             { key: 'autre_photo_poteau', label: 'POTEAU' }
         ];
@@ -478,7 +478,7 @@
             if (f('autre_geoloc') !== '1') autreContent += addLine('Géolocalisation', 'autre_geoloc', 'tri');
             if (f('autre_voisinage') !== '1') autreContent += addLine('CheckVoisinage', 'autre_voisinage', 'tri', 'autre_comm_voisinage');
             if (f('autre_voisin_perturbe') !== '0') autreContent += addLine('Voisin Perturbé', 'autre_voisin_perturbe', 'voisin');
-            if (f('autre_sauvage') !== '0') autreContent += addLine('Racc Sauvage', 'autre_sauvage', 'ouinon');
+            if (f('autre_sauvage') !== '0') autreContent += addLine('INC', 'autre_sauvage', 'ouinon');
             if (f('autre_nacelle') !== '1') autreContent += addLine('Nacelle', 'autre_nacelle', 'tri');
             if (f('autre_photo_poteau') !== '1') autreContent += addLine('Poteau', 'autre_photo_poteau', 'tri');
             if (autreContent) output += `------------------------- AUTRE -------------------------\n${autreContent}`;
@@ -1080,7 +1080,7 @@
                                     ${isFieldVisible('autre_voisinage', state.type) ? ToggleGroup({id: 'autre_voisinage', label: 'CHECKVOISINAGE', value: state.formData.autre_voisinage, hasCor: true, description: DESCRIPTIONS.autre_voisinage}) : ''}
                                     ${DatalistInput({id: 'autre_comm_voisinage', label: 'COMM. CHECKV.', value: state.formData.autre_comm_voisinage, isVisible: isFieldVisible('autre_voisinage', state.type) && (state.formData.autre_voisinage === '0' || state.formData.autre_voisinage === 'Cor'), options: OPTIONS.voisinageOpts})}
                                     ${isFieldVisible('autre_voisin_perturbe', state.type) ? ToggleGroup({id: 'autre_voisin_perturbe', label: 'VOISIN PERTURBÉ', value: state.formData.autre_voisin_perturbe, options: [{label: 'Non', value: '0'}, {label: 'Oui', value: '1'}], colorReversed: true, hasCor: true, description: DESCRIPTIONS.autre_voisin_perturbe}) : ''}
-                                    ${isFieldVisible('autre_sauvage', state.type) ? ToggleGroup({id: 'autre_sauvage', label: 'RACC SAUVAGE', value: state.formData.autre_sauvage, options: [{label: 'Non', value: '0'}, {label: 'Oui', value: '1'}], colorReversed: true, hasCor: true, description: DESCRIPTIONS.autre_sauvage}) : ''}
+                                    ${isFieldVisible('autre_sauvage', state.type) ? ToggleGroup({id: 'autre_sauvage', label: 'INC', value: state.formData.autre_sauvage, options: [{label: 'Non', value: '0'}, {label: 'Oui', value: '1'}], colorReversed: true, hasCor: true, description: DESCRIPTIONS.autre_sauvage}) : ''}
                                     ${isFieldVisible('autre_nacelle', state.type) ? ToggleGroup({id: 'autre_nacelle', label: 'NACELLE', isTriState: true, value: state.formData.autre_nacelle, hasCor: true, description: DESCRIPTIONS.autre_nacelle}) : ''}
                                     ${isFieldVisible('autre_photo_poteau', state.type) ? ToggleGroup({id: 'autre_photo_poteau', label: 'POTEAU', isTriState: true, value: state.formData.autre_photo_poteau, hasCor: true}) : ''}
                                 `
