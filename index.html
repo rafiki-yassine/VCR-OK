@@ -486,7 +486,7 @@
             const resumeHeader = `------------------------- RESUME -------------------------`;
             const tagsHeader = ``;
             const resumeLine = `[[${resumeParts.join('\\\\')}]]`;
-            const tagsLine = `{{${tagsParts.join('\\')}}}`;
+            const tagsLine = `||${tagsParts.join('\\')}||`;
             
             return `${tagsHeader}\n${tagsLine}\n${resumeHeader}\n${resumeLine}\n${output.trim()}`.replace(/\n{3,}/g, '\n\n');
         };
