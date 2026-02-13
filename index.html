@@ -500,6 +500,7 @@
                 if (['pto_etiquette', 'pto_mesure'].includes(id)) return true;
                 if (['pm_dechets', 'pm_comm_dechets', 'pm_mesure'].includes(id)) return true;
                 if (['autre_voisinage'].includes(id)) return true; 
+                if (['pto_suspicion'].includes(id)) return true; // added to PLP
                 return false;
             }
             if (currentType === AppType.PLP_E3) {
