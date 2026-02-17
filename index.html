@@ -483,10 +483,10 @@
             if (f('autre_photo_poteau') !== '1') autreContent += addLine('Poteau', 'autre_photo_poteau', 'tri');
             if (autreContent) output += `------------------------- AUTRE -------------------------\n${autreContent}`;
 
-            const resumeHeader = `------------------------- RESUME -------------------------`;
+            const resumeHeader = RESUME:`;
             const tagsHeader = ``;
-            const resumeLine = `[[${resumeParts.join('\\\\')}]]`;
-            const tagsLine = `||${tagsParts.join('\\')}||`;
+            const resumeLine = `${resumeParts.join('\\\\')}`;
+            const tagsLine = `[[${tagsParts.join('\\')}]]`;
             
             return `${tagsHeader}\n${tagsLine}\n${resumeHeader}\n${resumeLine}\n${output.trim()}`.replace(/\n{3,}/g, '\n\n');
         };
