@@ -73,7 +73,9 @@
             { key: 'pbo_ref_cable', label: 'RÉF CABLE' }, { key: 'pbo_ref_pb', label: 'RÉF PB' }, { key: 'pbo_avant', label: 'PHOTO PBO AVANT' }, { key: 'pbo_apres', label: 'PHOTO PBO APRÈS' }, { key: 'pbo_cadrage', label: 'CADRAGE PB' }, { key: 'pbo_mesure_e2', label: 'MESURE E2' },
             { key: 'autre_penetration', label: 'PÉNÉTRATION' }, { key: 'autre_geoloc', label: 'GÉOLOCALISATION' }, { key: 'autre_voisinage', label: 'CHECKVOISINAGE' }, { key: 'autre_voisin_perturbe', label: 'VOISIN PERTURBÉ' }, { key: 'autre_sauvage', label: 'INC' }, { key: 'autre_nacelle', label: 'NACELLE' }, { key: 'autre_photo_poteau', label: 'POTEAU' }
         ];
-        const SIGNATURE_COMMENT_MAP = {
+        
+        // CONSOLIDATED COMMENT MAP to avoid Reference Errors
+        const COMMENT_MAP = {
             'pm_dechets': 'pm_comm_dechets', 'pm_ref_jarretieres': 'pm_comm_jarretieres', 'pm_mesure': 'pm_mesure_extra', 'pto_etiquette': 'pto_comm_etiquette', 'pto_suspicion': 'pto_comm_suspicion',
             'pto_mesure': 'pto_mesure_extra', 'pto_photo': 'pto_comm_photo', 'pbo_ref_cable': 'pbo_comm_cable', 'pbo_ref_pb': 'pbo_comm_pb', 'pbo_avant': 'pbo_comm_avant', 'pbo_apres': 'pbo_comm_apres', 'autre_voisinage': 'autre_comm_voisinage'
         };
@@ -88,7 +90,7 @@
                 let dV = v==='NA'?'NA':(v==='Cor'?'Cor':(v==='1'?'1':'0'));
                 if(k==='contact') dV = v==='NA'?'NA':(v==='1'?'Avec':'Sans');
                 else if(['presta','Val_ROP','desserte','autre_voisin_perturbe','autre_sauvage'].includes(k)) dV=v==='Cor'?'Cor':(v==='NA'?'NA':(v==='1'?'Oui':'Non'));
-                const cK = SIGNATURE_COMMENT_MAP[k], c = cK?data[cK]:null;
+                const cK = COMMENT_MAP[k], c = cK?data[cK]:null;
                 if(c&&c.trim()!==''&&(v==='0'||v==='Cor')) dV+=` (${c.trim()})`;
                 parts.push(dV);
             });
@@ -205,7 +207,7 @@
                         const v = state.formData[id];
                         if (id.includes('_comm_')||id.includes('_extra')) return;
                         if (v===undefined||v==='') missing.push(KEY_TO_HUMAN_LABEL[id]||id);
-                        else if (v==='0'||v==='Cor') { const cId=SIGNATURE_COMMENT_MAP[id]; if(cId&&(!state.formData[cId]||state.formData[cId].trim()==='')) missing.push(KEY_TO_HUMAN_LABEL[cId]||cId); }
+                        else if (v==='0'||v==='Cor') { const cId=COMMENT_MAP[id]; if(cId&&(!state.formData[cId]||state.formData[cId].trim()==='')) missing.push(KEY_TO_HUMAN_LABEL[cId]||cId); }
                     }
                 });
                 const isFormComplete = missing.length===0;
@@ -324,7 +326,7 @@
                 ALL_KEYS.forEach(k => {
                     if(!isFieldVisible(k,state.type)||k==='contact'||k.includes('_comm_')||k.includes('_extra')) return;
                     if(['autre_voisin_perturbe','autre_sauvage'].includes(k)) n[k]='1'; else if(['presta','Val_ROP','desserte'].includes(k)) n[k]='0'; else if(k!=='status') n[k]='0';
-                    const ck=SIGNATURE_COMMENT_MAP[k]; if(ck) n[ck]=k==='pm_dechets'?'Dossier vide':'.';
+                    const ck=COMMENT_MAP[k]; if(ck) n[ck]=k==='pm_dechets'?'Dossier vide':'.';
                     if(k==='pm_mesure')n.pm_mesure_extra='.';if(k==='pto_mesure')n.pto_mesure_extra='.';if(k==='pm_ref_jarretieres')n.pm_comm_jarretieres='.';if(k==='pto_etiquette')n.pto_comm_etiquette='.';if(k==='pto_suspicion')n.pto_comm_suspicion='.';
                 });
                 n.pm_comm_dechets='Dossier vide'; n.pm_dechets='0'; n.status=calculateStatus(n,state.type,state.importedContactValue!==undefined);
@@ -351,7 +353,7 @@
                     let fv=cv;
                     if(['presta','Val_ROP','desserte','autre_voisin_perturbe','autre_sauvage'].includes(k)) fv=cv==='Cor'?'Cor':(cv==='Oui'||cv==='1'?'1':'0');
                     else fv=cv==='Cor'?'Cor':cv==='1'?'1':cv==='0'?'0':cv==='NA'?'NA':cv;
-                    n[k]=fv; if(COMMENT_FIELDS_MAP[k]) n[COMMENT_FIELDS_MAP[k]]=c;
+                    n[k]=fv; if(COMMENT_MAP[k]) n[COMMENT_MAP[k]]=c;
                 });
                 state.importedContactValue=impC; state.formData=n; state.isModalOpen=false; render(); Swal.fire({icon:'success',title:'Import Réussi',timer:1200,showConfirmButton:false,toast:true,position:'top-end'});
             },
